@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
 import './App.css';
+import ProductList from './ProductList';
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -33,7 +34,7 @@ function App() {
   return (
     <div className="app-container">
       <header className="App-header">
-
+        <ProductList products={products} />
       </header>
     </div>
   );
