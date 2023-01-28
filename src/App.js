@@ -1,22 +1,39 @@
-import logo from './logo.svg';
+import React, { useState, useEffect, useCallback } from 'react';
+
 import './App.css';
 
 function App() {
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchDataHandler = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await fetch('https://dummyjson.com/products');
+
+      if (!response.ok) {
+        throw new Error('Something went wrong!');
+      }
+      const data = await response.json();
+      const productArr = [...data.products];
+      setProducts(productArr);
+
+    } catch (error) {
+      setError(error.message);
+    }
+    setIsLoading(false);
+  }, []);
+
+  useEffect(() => {
+    fetchDataHandler();
+  }, [fetchDataHandler]);
+
   return (
-    <div className="App">
+    <div className="app-container">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+
       </header>
     </div>
   );
